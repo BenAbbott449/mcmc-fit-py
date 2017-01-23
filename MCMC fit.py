@@ -37,8 +37,7 @@ def func(x, params):
 
     a, b, c, d, e = params
 
-    #return a*x**3 + b*x**2 + x*c + d
-    return 20*a*np.sin(x) + b*x + c*x**2 - 2*d*np.cos(0.5*x) + e
+    return a*np.sin(b*x) + c*x**2 + d*x + e
 
 
 
@@ -138,19 +137,19 @@ class MCMC(object):
 if __name__ == '__main__':
 
     # Independant varibale
-    x_data = np.linspace(-20, 20, 100)
+    x_data = np.linspace(0, 10, 200)
 
     # Underlying model parameters
-    params = [0.1, -1.0, 0.2, 6, 0.5]
+    params = [1.5, 2, 0.1, 0.1, 3]
 
     # Dependant variable data
     y_data = func(x_data, params)
 
     # Add some noise to the data points
-    y_measurements = y_data + np.random.normal(0, 5.0, len(y_data))
+    y_measurements = y_data + np.random.normal(0, 0.5, len(y_data))
 
     # Add a few large outliers
-    y_measurements[np.random.randint(0, len(x_data), 10)] += np.random.normal(2.0, 30.0, 10)
+    y_measurements[np.random.randint(0, len(x_data), 10)] += np.random.normal(0, 3.0, 10)
 
     # Take every other point in the measurements (simulate sparser sampling)
     x_sample = x_data[::2]
@@ -161,14 +160,16 @@ if __name__ == '__main__':
     plt.plot(x_data, y_measurements, label='Model with the added noise')
     plt.scatter(x_sample, y_sample, label='Samples taken from the noisy model')
 
-    plt.legend(loc='upper right')
+    plt.legend(loc='lower right')
     
     plt.show()
     plt.clf()
 
 
     # Init the MCMC fitter
-    mcmc = MCMC(func, 5, x_sample, y_sample, 0.05, 2.0)
+    mcmc = MCMC(func, 5, x_sample, y_sample, 0.2, 2.0)
+
+    print 'Running MCMC...'
 
     # Run the MCMC fit
     fit = mcmc.fit()
@@ -187,6 +188,6 @@ if __name__ == '__main__':
     plt.plot(x_sample, func(x_sample, fit), label='Fitted model - MCMC')
     plt.plot(x_sample, func(x_sample, popt), label='Fitted model - LS')
 
-    plt.legend(loc='upper right')
+    plt.legend(loc='lower right')
 
     plt.show()
