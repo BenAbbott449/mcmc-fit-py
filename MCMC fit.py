@@ -127,8 +127,8 @@ class MCMC(object):
                     break
 
 
-        print 'Iterations:', "{:,d} out of max. {:,d}".format(n+1, self.max_iter)
-        print 'Final mean square residuals: ', chi1/x_size
+        print ('Iterations:', "{:,d} out of max. {:,d}".format(n+1, self.max_iter))
+        print ('Final mean square residuals: ', chi1/x_size)
 
         return theta1
 
@@ -169,7 +169,7 @@ if __name__ == '__main__':
     # Init the MCMC fitter
     mcmc = MCMC(func, 5, x_sample, y_sample, 0.2, 2.0)
 
-    print 'Running MCMC...'
+    print ('Running MCMC...')
 
     # Run the MCMC fit
     fit = mcmc.fit()
@@ -177,9 +177,9 @@ if __name__ == '__main__':
     # Fit the model using least squares (for comparison only)
     popt, pconv = scipy.optimize.curve_fit(lambda x, a, b, c, d, e: func(x, [a, b, c, d, e]), x_sample, y_sample)
 
-    print 'Real parameters:        ', params
-    print 'LS fitted parameters:   ', popt
-    print 'MCMC fitted parameters: ', fit
+    print ('Real parameters:        ', params)
+    print ('LS fitted parameters:   ', popt)
+    print ('MCMC fitted parameters: ', fit)
 
 
     plt.plot(x_data, y_data, label='Underlying model')
